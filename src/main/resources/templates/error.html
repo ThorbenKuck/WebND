@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="/fragments/layout :: head"></head>
+<nav th:replace="/fragments/layout :: navigation('error')"></nav>
+<body>
+<div style="text-align: center; width: 100%; top: 50%; font-size: 200%; position: absolute">
+<div>Ups! Da ist wohl was schief gegangen!</div>
+<div th:text="${error_message}"></div>
+</div>
+</body>
+</html>

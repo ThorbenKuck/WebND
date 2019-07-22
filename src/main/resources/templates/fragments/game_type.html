@@ -1,0 +1,289 @@
+<html>
+<th:block th:fragment="modals" th:each="type : ${gameTypes}">
+    <div th:id="'gt_ability_modal_' + ${type.getId()}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ein neuen Attribut-Typ hinzufügen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form th:id="'gt_ability_form_' + ${type.getId()}" action>
+                <div class="form-group">
+                  <label for="skillName">Name</label>
+                  <input th:id="'gt_ability_form_name_' + ${type.getId()}" type="text" class="form-control" id="skillName" aria-describedby="skillNameHelp" placeholder="Name" required>
+                  <small id="skillNameHelp" class="form-text text-muted">Der Name des Attributs</small>
+                </div>
+                <div class="form-group">
+                  <label for="skillDescription">Beschreibung</label>
+                  <input th:id="'gt_ability_form_descr_' + ${type.getId()}" type="text" class="form-control" id="skillDescription" placeholder="Beschreibung">
+                  <small id="skillNameHelp" class="form-text text-muted">Informationen, was für ein Attribut das ist</small>
+                </div>
+                <div class="form-check">
+                  <input th:id="'gt_ability_form_required_' + ${type.getId()}" type="checkbox" class="form-check-input" id="skillRequired" checked>
+                  <label class="form-check-label" for="skillRequired">Pflicht</label>
+                  <small id="skillNameHelp" class="form-text text-muted">Muss dieses Attribut befüllt werden?</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Erstellen</button>
+              </form>
+              <div th:id="'gt_ability_form_result_' + ${type.getId()}"></div>
+              <script th:inline="javascript">
+              /*<![CDATA[*/
+              $('#' + /*[['gt_ability_form_' + ${type.getId()}]]*/).submit(function(event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  var nameSelector = $('#' + /*[['gt_ability_form_name_' + ${type.getId()}]]*/);
+                  var descrSelector = $('#' + /*[['gt_ability_form_descr_' + ${type.getId()}]]*/);
+                  var requiredSelector = $('#' + /*[['gt_ability_form_required_' + ${type.getId()}]]*/);
+                  var id = /*[[${type.getId()}]]*/;
+                  var parsedName = nameSelector.val();
+                  var descr = descrSelector.val();
+                  var required = requiredSelector.val();
+                  nameSelector.val("");
+                  descrSelector.val("");
+                  console.log($('#' + /*[['gt_ability_form_' + ${type.getId()}]]*/).serialize());
+                  $.post("/api/game_types/" + id + "/abilities", {name: parsedName, description: descr, skillRequired:required})
+                  .done(function(data) {
+                      console.log(data);
+                      nameSelector.focus();
+                      $('#' + /*[['gt_ability_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-success' role='alert'>Das Attribut " + parsedName + " wurde erfolgreich hinzugefügt.</div>");
+                  }).fail(function(xhr, status, error) {
+                      console.log("(" + status + "): " + error);
+                      $('#' + /*[['gt_ability_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-danger' role='alert'>Das Attribut " + parsedName + " existiert bereits</span>");
+                  }).always(function() {
+                      $('#' + /*[['gt_ability_form_result_' + ${type.getId()}]]*/).delay(5000).fadeOut(250, function() {
+                        $('#' + /*[['gt_ability_form_result_' + ${type.getId()}]]*/).html('');
+                      });
+                  });
+              });
+              /*]]>*/
+              </script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:id="'gt_skill_modal_' + ${type.getId()}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ein neuen Skill-Typ hinzufügen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <form th:id="'gt_skill_form_' + ${type.getId()}" action>
+            <div class="form-group">
+              <label for="skillName">Name</label>
+              <input th:id="'gt_skill_form_name_' + ${type.getId()}" type="text" class="form-control" id="skillName" aria-describedby="skillNameHelp" placeholder="Name" required>
+              <small id="skillNameHelp" class="form-text text-muted">Der Name des Skills</small>
+            </div>
+            <div class="form-group">
+              <label for="skillDescription">Beschreibung</label>
+              <input th:id="'gt_skill_form_descr_' + ${type.getId()}" type="text" class="form-control" id="skillDescription" placeholder="Beschreibung">
+              <small id="skillNameHelp" class="form-text text-muted">Informationen, was für ein Skill das ist</small>
+            </div>
+            <div class="form-group">
+              <label for="skillExpression">Automatische Berechnung</label>
+              <input th:id="'gt_skill_form_expression_' + ${type.getId()}" type="text" class="form-control" id="skillExpression" placeholder="Formel">
+              <small id="skillNameHelp" class="form-text text-muted">Ein Mathematischer Ausdruck zur automatischen Berechnung dieses Skills</small>
+            </div>
+            <div class="form-check">
+              <input th:id="'gt_skill_form_required_' + ${type.getId()}" type="checkbox" class="form-check-input" id="skillRequired" checked>
+              <label class="form-check-label" for="skillRequired">Pflicht</label>
+              <small id="skillNameHelp" class="form-text text-muted">Muss dieser Skill befüllt werden?</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Erstellen</button>
+          </form>
+          <div th:id="'gt_skill_form_result_' + ${type.getId()}"></div>
+          <script th:inline="javascript">
+          /*<![CDATA[*/
+          $('#' + /*[['gt_skill_form_' + ${type.getId()}]]*/).submit(function(event) {
+              event.preventDefault();
+              event.stopPropagation();
+              var nameSelector = $('#' + /*[['gt_skill_form_name_' + ${type.getId()}]]*/);
+              var descrSelector = $('#' + /*[['gt_skill_form_descr_' + ${type.getId()}]]*/);
+              var requiredSelector = $('#' + /*[['gt_skill_form_required_' + ${type.getId()}]]*/);
+              var expressionSelector = $('#' + /*[['gt_skill_form_expression_' + ${type.getId()}]]*/);
+              var id = /*[[${type.getId()}]]*/;
+              var parsedName = nameSelector.val();
+              var descr = descrSelector.val();
+              var required = requiredSelector.val();
+              var expression = expressionSelector.val();
+              nameSelector.val("");
+              descrSelector.val("");
+              expressionSelector.val("");
+              console.log($('#' + /*[['gt_skill_form_' + ${type.getId()}]]*/).serialize());
+              $.post("/api/game_types/" + id + "/skills", {name: parsedName, description: descr, skillRequired:required, expression: expression})
+              .done(function(data) {
+                  console.log(data);
+                  nameSelector.focus();
+                  $('#' + /*[['gt_skill_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-success' role='alert'>Der Skill " + parsedName + " wurde erfolgreich hinzugefügt.</div>");
+              }).fail(function(xhr, status, error) {
+                  console.log("(" + status + "): " + error);
+                  $('#' + /*[['gt_skill_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-danger' role='alert'>Der Skill " + parsedName + " existiert bereits</span>");
+              }).always(function() {
+                  $('#' + /*[['gt_skill_form_result_' + ${type.getId()}]]*/).delay(5000).fadeOut(250, function() {
+                    $('#' + /*[['gt_skill_form_result_' + ${type.getId()}]]*/).html('');
+                  });
+              });
+          });
+          /*]]>*/
+          </script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:id="'gt_base_value_modal_' + ${type.getId()}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ein neuen Grundwert hinzufügen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form th:id="'gt_base_value_form_' + ${type.getId()}" action>
+                <div class="form-group">
+                  <label for="skillName">Name</label>
+                  <input th:id="'gt_base_value_form_name_' + ${type.getId()}" type="text" class="form-control" id="skillName" aria-describedby="skillNameHelp" placeholder="Name" required>
+                  <small id="skillNameHelp" class="form-text text-muted">Der Name des Grundwert</small>
+                </div>
+                <div class="form-group">
+                  <label for="skillDescription">Beschreibung</label>
+                  <input th:id="'gt_base_value_form_descr_' + ${type.getId()}" type="text" class="form-control" id="skillDescription" placeholder="Beschreibung">
+                  <small id="skillNameHelp" class="form-text text-muted">Informationen, was für ein Grundwert das ist</small>
+                </div>
+                <div class="form-group">
+                  <label for="skillExpression">Automatische Berechnung</label>
+                  <input th:id="'gt_base_value_form_expression_' + ${type.getId()}" type="text" class="form-control" id="skillExpression" placeholder="Formel">
+                  <small id="skillNameHelp" class="form-text text-muted">Ein Mathematischer Ausdruck zur automatischen Berechnung dieses Grundwert</small>
+                </div>
+                <div class="form-check">
+                  <input th:id="'gt_base_value_form_required_' + ${type.getId()}" type="checkbox" class="form-check-input" id="skillRequired" checked>
+                  <label class="form-check-label" for="skillRequired">Pflicht</label>
+                  <small id="skillNameHelp" class="form-text text-muted">Muss dieser Grundwert befüllt werden?</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Erstellen</button>
+              </form>
+              <div th:id="'gt_base_value_form_result_' + ${type.getId()}"></div>
+              <script th:inline="javascript">
+              /*<![CDATA[*/
+              $('#' + /*[['gt_base_value_form_' + ${type.getId()}]]*/).submit(function(event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  var nameSelector = $('#' + /*[['gt_base_value_form_name_' + ${type.getId()}]]*/);
+                  var descrSelector = $('#' + /*[['gt_base_value_form_descr_' + ${type.getId()}]]*/);
+                  var requiredSelector = $('#' + /*[['gt_base_value_form_required_' + ${type.getId()}]]*/);
+                  var expressionSelector = $('#' + /*[['gt_base_value_form_expression_' + ${type.getId()}]]*/);
+                  var id = /*[[${type.getId()}]]*/;
+                  var parsedName = nameSelector.val();
+                  var descr = descrSelector.val();
+                  var required = requiredSelector.val();
+                  var expression = expressionSelector.val();
+                  nameSelector.val("");
+                  descrSelector.val("");
+                  expressionSelector.val("");
+                  console.log($('#' + /*[['gt_base_value_form_' + ${type.getId()}]]*/).serialize());
+                  $.post("/api/game_types/" + id + "/baseValues", {name: parsedName, description: descr, skillRequired:required, expression: expression})
+                  .done(function(data) {
+                      console.log(data);
+                      nameSelector.focus();
+                      $('#' + /*[['gt_base_value_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-success' role='alert'>Der Grundwert " + parsedName + " wurde erfolgreich hinzugefügt.</div>");
+                  }).fail(function(xhr, status, error) {
+                      console.log("(" + status + "): " + error);
+                      $('#' + /*[['gt_base_value_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-danger' role='alert'>Der Grundwert " + parsedName + " existiert bereits</span>");
+                  }).always(function() {
+                      $('#' + /*[['gt_base_value_form_result_' + ${type.getId()}]]*/).delay(5000).fadeOut(250, function() {
+                        $('#' + /*[['gt_base_value_form_result_' + ${type.getId()}]]*/).html('');
+                      });
+                  });
+              });
+              /*]]>*/
+              </script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:id="'gt_detail_modal_' + ${type.getId()}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ein neues Charakter-Detail hinzufügen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form th:id="'gt_detail_form_' + ${type.getId()}" action>
+                <div class="form-group">
+                  <label for="skillName">Name</label>
+                  <input th:id="'gt_detail_form_name_' + ${type.getId()}" type="text" class="form-control" id="skillName" aria-describedby="skillNameHelp" placeholder="Name" required>
+                  <small id="skillNameHelp" class="form-text text-muted">Der Name des Charakter-Details</small>
+                </div>
+                <div class="form-group">
+                  <label for="skillDescription">Beschreibung</label>
+                  <input th:id="'gt_detail_form_descr_' + ${type.getId()}" type="text" class="form-control" id="skillDescription" placeholder="Beschreibung">
+                  <small id="skillNameHelp" class="form-text text-muted">Informationen, was für ein Charakter-Detail das ist</small>
+                </div>
+                <div class="form-check">
+                  <input th:id="'gt_detail_form_required_' + ${type.getId()}" type="checkbox" class="form-check-input" id="skillRequired" checked>
+                  <label class="form-check-label" for="skillRequired">Pflicht</label>
+                  <small id="skillNameHelp" class="form-text text-muted">Muss dieses Charakter-Detail befüllt werden?</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Erstellen</button>
+              </form>
+              <div th:id="'gt_detail_form_result_' + ${type.getId()}"></div>
+              <script th:inline="javascript">
+              /*<![CDATA[*/
+              $('#' + /*[['gt_detail_form_' + ${type.getId()}]]*/).submit(function(event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  var nameSelector = $('#' + /*[['gt_detail_form_name_' + ${type.getId()}]]*/);
+                  var descrSelector = $('#' + /*[['gt_detail_form_descr_' + ${type.getId()}]]*/);
+                  var id = /*[[${type.getId()}]]*/;
+                  var parsedName = nameSelector.val();
+                  var descr = descrSelector.val();
+                  nameSelector.val("");
+                  descrSelector.val("");
+                  console.log($('#' + /*[['gt_detail_form_' + ${type.getId()}]]*/).serialize());
+                  $.post("/api/game_types/" + id + "/details", {name: parsedName, description: descr})
+                  .done(function(data) {
+                      console.log(data);
+                      nameSelector.focus();
+                      $('#' + /*[['gt_detail_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-success' role='alert'>Das Charakter-Detail " + parsedName + " wurde erfolgreich hinzugefügt.</div>");
+                  }).fail(function(xhr, status, error) {
+                      console.log("(" + status + "): " + error);
+                      $('#' + /*[['gt_detail_form_result_' + ${type.getId()}]]*/).html("<div class='alert alert-danger' role='alert'>Der Charakter-Detail " + parsedName + " existiert bereits</span>");
+                  }).always(function() {
+                      $('#' + /*[['gt_detail_form_result_' + ${type.getId()}]]*/).delay(5000).fadeOut(250, function() {
+                        $('#' + /*[['gt_detail_form_result_' + ${type.getId()}]]*/).html('');
+                      });
+                  });
+              });
+              /*]]>*/
+              </script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</th:block>
+</html>

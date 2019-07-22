@@ -1,0 +1,71 @@
+<html>
+<head th:fragment="head">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+<script th:src="@{/js/jquery.steps.min.js}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<title th:text="${'WebND' + title}"></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/details_summary.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.steps.css}">
+<!-- Standard Meta -->
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<style>
+.navbar-light-gray {
+    background-color: lightgray;
+    color: #252525;
+}
+.active {
+    color: #000;
+    background-color: #bebebe;
+
+}
+</style>
+</head>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-faded navbar-light-gray sticky-top" th:fragment="navigation(active)">
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo02">
+        <a th:href="@{/}" class="navbar-brand">WebND</a>
+        <ul class="navbar-nav mr-auto">
+          <li th:if="${@sessionStorage.isLoggedIn()}" class="nav-item" th:classappend="${active.equals('campaigns')} ? 'active' : ''">
+            <a class="nav-link" th:href="@{/campaigns}">Kampagnen</a>
+          </li>
+          <li th:if="${@sessionStorage.isLoggedIn()}" class="nav-item" th:classappend="${active.toLowerCase().equals('characters')} ? 'active' : ''">
+            <a class="nav-link" th:href="@{/characters}">Charaktere</a>
+          </li>
+          <li th:if="${@sessionStorage.isModerator()}" class="nav-item" th:classappend="${active.toLowerCase().equals('moderation')} ? 'active' : ''">
+            <a class="nav-link" th:href="@{/mod}">Moderation</a>
+          </li>
+        </ul>
+        <sub th:text="${@sessionStorage.prettyPrint()}"></sub>
+        <ul class="navbar-nav">
+            <li th:if="${@sessionStorage.isLoggedIn()}" class="nav-item" th:classappend="${active.toLowerCase().equals('logout')} ? 'active' : ''">
+               <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+            <li th:unless="${@sessionStorage.isLoggedIn()}" class="nav-item" th:classappend="${active.toLowerCase().equals('login')} ? 'active' : ''">
+               <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li th:unless="${@sessionStorage.isLoggedIn()}" class="nav-item" th:classappend="${active.toLowerCase().equals('register')} ? 'active' : ''">
+               <a class="nav-link" th:href="@{/register}">Registrieren</a>
+            </li>
+        </ul>
+
+        </div>
+    </nav>
+  </div>
+</html>

@@ -1,0 +1,7 @@
+<html>
+<div th:fragment="root">
+
+<div th:if="${@sessionStorage.isModerator()}"></div>
+<div th:if="${login_message != null}" th:text="${login_message}" class="info-box alert-success auto-hide"></div>
+</div>
+</html>

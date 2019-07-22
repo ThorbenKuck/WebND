@@ -1,0 +1,102 @@
+.info-box {
+    position: fixed;
+    bottom: 0;
+    padding: 8px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.grid-striped .row:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+.click {
+    cursor: pointer;
+}
+
+.pseudo-table-row {
+    background-color: #ededed;
+    border-bottom: 1px solid #414141;
+}
+
+.side-border {
+    border-left: 1px solid #414141;
+    border-right: 1px solid #414141;
+    border-bottom: 1px solid #414141;
+}
+
+.fade-after-five {
+    animation:fade-out 0.5s 1;
+    -webkit-animation:fade-out 0.5s 1;
+    animation-fill-mode: forwards;
+
+    animation-delay:5s;
+    -webkit-animation-delay:1s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes fade-out {
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@-webkit-keyframes fade-out {
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@keyframes sweep {
+    0%    {opacity: 0; margin-left: -10px}
+    100%  {opacity: 1; margin-left: 0}
+}
+
+.custom-table-row-details {
+    padding-left:10px;
+    max-height: 0;
+    background-color: #ededed;
+    overflow: hidden;
+    -webkit-transition: max-height 300ms ease-in-out;
+    -moz-transition: max-height 300ms ease-in-out;
+    -o-transition: max-height 300ms ease-in-out;
+    transition: max-height 300ms ease-in-out;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.singleton {
+    width: 100%;
+    margin-top: 10px;
+}
+
+body {
+    height: 100%;
+}
+
+.auto-hide {
+    -moz-animation: autoHide 0.8s 3s forwards;
+    /* Firefox */
+    -webkit-animation: autoHide 0.8s 3s forwards;
+    /* Safari and Chrome */
+    -o-animation: autoHide 0.8s 3s forwards;
+    /* Opera */
+    animation: autoHide 0.8s 3s forwards;
+    overflow: hidden;
+}
+
+@keyframes autoHide {
+    to {
+        height: 0;
+        padding: 0;
+    }
+}
+
+@-webkit-keyframes autoHide {
+    to {
+        height: 0;
+        padding: 0;
+    }
+}

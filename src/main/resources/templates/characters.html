@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head th:replace="/fragments/layout :: head(title=' - Registrieren')"></head>
+<nav th:replace="/fragments/layout :: navigation('register')"></nav>
+<body>
+
+<div role="grid" class="container grid-striped" style="margin-top: 10px;">
+
+    <div th:replace="/fragments/character :: characterCreationModal"></div>
+    <div class="card">
+        <div class="card-header">Deine Charaktere</div>
+        <div class="card-body">
+            <div th:if="${@sessionStorage.getUser().get().getCharacters() == null || @sessionStorage.getUser().get().getCharacters().isEmpty()}">
+                Du hast noch keine Charaktere.
+            </div>
+            <div th:unless="${@sessionStorage.getUser().get().getCharacters() == null || @sessionStorage.getUser().get().getCharacters().isEmpty()}">
+                <div role="row" class="pseudo-table-row row font-weight-bold py-2">
+                    <div class="col" role="gridcell">Name</div>
+                    <div class="col" role="gridcell">Spiel</div>
+                </div>
+
+                <div th:if="${@sessionStorage.getUser().get().getCharacters() != null}" th:each="character : ${@sessionStorage.getUser().get().getCharacters()}">
+                    <div role="row" class="pseudo-table-row row font-weight-bold py-2">
+                        <div class="col" role="gridcell">Name</div>
+                        <div class="col" role="gridcell">Spiel</div>
+                    </div>
+                </div>
+                <div th:unless="${@sessionStorage.getUser().get().getCharacters() != null}" class="row text-center">Du hast noch keine Charaktere</div>
+            </div>
+        </div>
+        <script>
+        function showCreationModal() {
+            $('#character_creation_modal_root').modal('show');
+        }
+        </script>
+        <div class="card-footer"><button class="btn btn-success btn-block" onclick="showCreationModal()">Neuen Charakter hinzufügen</button></div>
+    </div>
+</div>
+
+</body>
+</html>

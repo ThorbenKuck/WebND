@@ -1,0 +1,16 @@
+<html>
+<head th:replace="/fragments/layout :: head(title=' - Moderation')"></head>
+<nav th:replace="/fragments/layout :: navigation('moderation')"></nav>
+<body>
+
+<details style="margin-bottom: 10px;">
+<summary>
+    <span class="when-closed">Möchtest du ein neues Spiel registrieren?</span>
+    <span class="when-open">Verstecke mich</span>
+</summary>
+<div th:replace="/fragments/moderation :: new_game_type"></div>
+</details>
+
+<div th:replace="/fragments/moderation :: all_game_types"></div>
+</body>
+</html>

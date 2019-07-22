@@ -1,0 +1,95 @@
+<html>
+
+<div class="modal fade" id="character_creation_modal_root" tabindex="-1" role="dialog" aria-labelledby="characterCreationRootLabel" aria-hidden="true" th:fragment="characterCreationModal">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ein neuen Attribut-Typ hinzufügen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div th:replace=":: characterCreationSteps"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+
+
+<div th:fragment="characterCreationSteps">
+    <div id="pre_rendered_steps" style="visibility: hidden; display: none;">
+        <div id="testRoot">
+          <h3>Spiel-Typ</h3>
+          <section>
+              <label for="gameType">Wähle ein Spiel</label>
+              <select id="gameType" th:each="gameType : ${@sessionStorage.loadGameTypes()}" required>
+                  <option th:value="${gameType.getId()}" th:text="${gameType.getName()}" th:title="${gameType.getDescription()}"></option>
+              </select>
+              <button class="btn btn-outline-dark" onclick="load()">Lade die Eigenschaften</button>
+          </section>
+
+         </div>
+     </div>
+    <script>
+
+    </script>
+    <form id="characterCreationForm">
+        <script>
+        function createSteps(){
+                var form = $("#characterCreationForm");
+                form.validate({
+                    errorPlacement: function errorPlacement(error, element) { element.before(error); }
+                });
+                form.children("div").steps({
+                    headerTag: "h3",
+                    bodyTag: "section",
+                    transitionEffect: "slideLeft",
+                    autoFocus: true,
+                    onStepChanging: function (event, currentIndex, newIndex)
+                    {
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        return form.valid();
+                    },
+                    onFinishing: function (event, currentIndex)
+                      {
+                          form.validate().settings.ignore = ":disabled";
+                          return form.valid();
+                      },
+                      onFinished: function (event, currentIndex)
+                      {
+                          alert("Submitted!");
+                      }
+                });
+            }
+        function plainSetup() {
+            $("#characterCreationForm").html($('#pre_rendered_steps').html());
+            createSteps();
+        }
+        function load() {
+            let gameType = $('#gameType').val();
+            console.log(gameType);
+            $.get({url: "/api/game_types/" + gameType + "/skills"}).done(function(data) {
+                console.log(data);
+                let skillContent = "<section>";
+                jQuery.each(data, function(i, val) {
+                    console.log(val);
+                    skillContent += "<div class='form-group'><label>" + val["name"] +
+                    "<input class='form-control' type='text' required='" + val["required"] + "'>" +
+                    "<small class='form-text text-muted'>" + val["description"] + "</small>" +
+                    "</label>"
+                });
+                skillContent += "</section>";
+
+                $("#characterCreationForm").children("div").steps("add", {
+                    title: "Skills",
+                    content: skillContent
+                });
+            });
+            plainSetup();
+        }
+        </script>
+    </form>
+    <script>plainSetup()</script>
+</div>

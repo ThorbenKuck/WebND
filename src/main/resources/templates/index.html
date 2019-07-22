@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="/fragments/layout :: head"></head>
+<nav th:replace="/fragments/layout :: navigation('home')"></nav>
+<body>
+<div th:if="${@sessionStorage.isLoggedIn()}" class="container" th:insert="/fragments/loggedIn :: root">
+</div>
+<div th:unless="${@sessionStorage.isLoggedIn()}" class="container" th:insert="/fragments/loggedOut :: root">
+</div>
+</body>
+</html>

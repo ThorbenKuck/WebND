@@ -1,0 +1,253 @@
+<html lang="de">
+
+<div th:fragment="all_game_types">
+    <th:block th:replace="/fragments/game_type :: modals" />
+    <div role="grid" class="container grid-striped" th:if="${gameTypes != null}">
+        <div role="row" class="pseudo-table-row row font-weight-bold py-2">
+            <div class="col" role="gridcell">Id</div>
+            <div class="col" role="gridcell">Name</div>
+            <div class="col" role="gridcell">Beschreibung</div>
+        </div>
+        <script>
+        function showSkillModal(id) {
+            $("#gt_skill_modal_" + id).modal('show');
+        }
+        function showAttributeModal(id) {
+            $("#gt_ability_modal_" + id).modal('show');
+        }
+        function showDetailModal(id) {
+            $("#gt_detail_modal_" + id).modal('show');
+        }
+        function showBaseValueModal(id) {
+            $("#gt_base_value_modal_" + id).modal('show');
+        }
+        </script>
+        <th:block th:each="type : ${gameTypes}" >
+            <div class="pseudo-table-row row py-2 click" role="row"  th:id="'gt_' + ${type.getId()}">
+                    <div class="col" role="gridcell" th:text="${type.getId()}"></div>
+                    <div class="col" role="gridcell" th:text="${type.getName()}"></div>
+                    <div class="col" role="gridcell" th:text="${type.getDescription()}"></div>
+            </div>
+            <div th:id="'gt_details_' + ${type.getId()}" class="side-border custom-table-row-details row">
+                <div class="card-deck" style="margin-bottom: 10px; width: 100%">
+                    <div class="card singleton no-margin bg-dark text-white">
+                        <div class="card-header"><h5 class="card-title">Beschreibung</h5></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Name: <span th:text="${type.getName()}"></span>
+                            </p>
+                            <p class="card-text">
+                                Beschreibung:
+                            </p>
+                            <p class="card-text" th:text="${type.getDescription()}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck" style="margin-bottom: 10px; width: 100%">
+                    <div class="card singleton bg-dark text-white">
+                        <div class="card-header"><h5 class="card-title">Statistiken</h5></div>
+                        <div class="card-body">
+                            <p class="card-text">TODO</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck" style="margin-bottom: 10px; width: 100%">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-header"><b class="card-title">Zugelassene Skills</b>
+                            <button class="btn btn-success float-right font-weight-bold" data-toggle="modal" th:onclick="|showSkillModal('${type.getId()}')|"
+                                th:data-target="'gt_skill_modal_' + ${type.getId()}">+</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="card-text table">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Beschreibung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="skillType : ${@sessionStorage.loadSkillTypes()}">
+                                        <tr>
+                                            <td th:text="${skillType.getName()}"></td>
+                                            <td th:text="${skillType.getDescription()}"></td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary text-white">
+                        <div class="card-header"><b class="card-title">Zugelassene Attribute</b>
+                            <button class="btn btn-success float-right font-weight-bold"  data-toggle="modal" th:onclick="|showAttributeModal('${type.getId()}')|"
+                                th:data-target="'gt_ability_modal_' + ${type.getId()}">+</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="card-text table">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Beschreibung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="type : ${@sessionStorage.loadAttributeTypes()}">
+                                        <tr>
+                                            <td th:text="${type.getName()}"></td>
+                                            <td th:text="${type.getDescription()}"></td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-deck" style="margin-bottom: 10px; width: 100%">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-header"><b class="card-title">Zugelassene Charakter Details</b>
+                            <button class="btn btn-success float-right font-weight-bold"  data-toggle="modal" th:onclick="|showDetailModal('${type.getId()}')|"
+                                th:data-target="'gt_detail_modal_' + ${type.getId()}">+</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="card-text table">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Beschreibung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="type : ${@sessionStorage.loadDetailTypes()}">
+                                        <tr>
+                                            <td th:text="${type.getName()}"></td>
+                                            <td th:text="${type.getDescription()}"></td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary text-white">
+                        <div class="card-header"><b class="card-title">Zugelassene Charakter Grundwerte</b>
+                            <button class="btn btn-success float-right font-weight-bold"  data-toggle="modal" th:onclick="|showBaseValueModal('${type.getId()}')|"
+                                th:data-target="'gt_base_value_modal_' + ${type.getId()}">+</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="card-text table">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Beschreibung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="type : ${@sessionStorage.loadBaseValueTypes()}">
+                                        <tr>
+                                            <td th:text="${type.getName()}"></td>
+                                            <td th:text="${type.getDescription()}"></td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-deck" style="width: 100%; margin-bottom: 10px">
+                    <div class="card border-danger singleton">
+                          <div class="card-header bg-danger text-white"><h5 class="card-title">Dangerzone</h5></div>
+                          <div class="card-body text-danger">
+                              <p class="card-text">TODO</p>
+                          </div>
+                    </div>
+                </div>
+
+            </div>
+          <script th:inline="javascript">
+          /*<![CDATA[*/
+          $('#' + /*[['gt_' + ${type.getId()}]]*/).click(function() {
+              var element = $('#' + /*[['gt_details_' + ${type.getId()}]]*/);
+              if(element.height() === 0) {
+                element.css('max-height', '800px');
+              } else {
+                element.css('max-height', '0');
+              }
+          });
+          /*]]>*/
+          </script>
+        </th:block>
+    </div>
+    <div th:unless="${gameTypes != null}" class="text-center font-weight-bold" style="margin-top: 10px;">
+    Es gibt noch keine Spiele! Das ist aber nicht gut!
+    </div>
+</div>
+
+
+
+<div th:fragment="new_game_type">
+    <form class="form-horizontal" role="form" method="POST" action="/mod/games">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2>Ein neues Spiel registrieren</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="gameName">Name</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <!-- <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div> -->
+                        <input th:value="${gameName}" type="text" name="gameName" class="form-control" id="gameName"
+                               placeholder="Name" required autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                        <span th:if="${email_error != null}" class="text-danger align-middle">
+                            <i class="fa fa-close" th:text="${email_error}"></i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="gameDescription">Beschreibung</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <!-- <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div> -->
+                        <textarea id="gameDescription" name="gameDescription" th:value="${gameDescription}"
+                        class="form-control" placeholder="Beschreibung" required></textarea>
+                        <!-- <input th:value="${gameDescription}" type="text" name="gameDescription" class="form-control" id="gameDescription"
+                               placeholder="Beschreibung" required> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control-feedback">
+                        <span th:if="${password_error != null}" class="text-danger align-middle">
+                            <i class="fa fa-close" th:text="${password_error}"></i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success"><i class="fa fa-sign-in-alt"></i> Erstellen</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:fragment="newSkill">
+    <form th:action="/api/games/{}">
+
+</form>
+</div>
+</html>

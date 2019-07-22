@@ -1,0 +1,41 @@
+details {
+    background-image: linear-gradient(#979797, #555555);
+    font-weight: bolder;
+    font-size: 140%;
+}
+
+summary {
+    padding-bottom: 10px;
+    background-image: linear-gradient(lightgray, #979797);
+    text-align: center;
+}
+
+summary .when-open {
+    font-size: 80%;
+    font-weight: lighter;
+    visibility: hidden;
+}
+
+details[open] summary ~ * {
+    animation: height 1s;
+}
+
+summary::-webkit-details-marker {
+     display: none
+}
+
+details[open] summary .when-open {
+    visibility: visible;
+}
+
+details[open] summary .when-closed {
+    visibility: hidden;
+}
+
+details[hidden] summary .when-open {
+    visibility: hidden;
+}
+
+details[hidden] summary .when-closed {
+    visibility: visible;
+}
