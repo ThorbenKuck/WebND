@@ -12,8 +12,7 @@ public class AttributeType extends AbstractEntity<Integer> {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@MapsId
-	@OneToOne
+	@ManyToOne
 	private GameType gameType;
 	@Column(name = "attribute_type_name")
 	private String name;

@@ -23,13 +23,18 @@
         <div id="testRoot">
           <h3>Spiel-Typ</h3>
           <section>
+            <div class="form-group">
               <label for="gameType">Wähle ein Spiel</label>
-              <select id="gameType" th:each="gameType : ${@sessionStorage.loadGameTypes()}" required>
+              <select id="gameType" class="form-control" th:each="gameType : ${@sessionStorage.loadGameTypes()}" required>
                   <option th:value="${gameType.getId()}" th:text="${gameType.getName()}" th:title="${gameType.getDescription()}"></option>
               </select>
-              <button class="btn btn-outline-dark" onclick="load()">Lade die Eigenschaften</button>
+            </div>
+            <div class="form-group">
+              <label for="characterName">Name des Charakters</label>
+              <input id="characterName" type="text" class="form-control" required>
+            </div>
+          <button class="btn btn-primary" onclick="load()">Lade die Eigenschaften</button>
           </section>
-
          </div>
      </div>
     <script>
@@ -69,13 +74,14 @@
         }
         function load() {
             let gameType = $('#gameType').val();
-            console.log(gameType);
-            $.get({url: "/api/game_types/" + gameType + "/skills"}).done(function(data) {
+            let name = $('#characterName').val();
+            console.log(name);
+            const result = $.get({url: "/api/characterCreation/" + gameType + "", data:{characterName:name}}).done(function(data) {
                 console.log(data);
                 let skillContent = "<section>";
                 jQuery.each(data, function(i, val) {
                     console.log(val);
-                    skillContent += "<div class='form-group'><label>" + val["name"] +
+                    skillContent += "<div class='form-group' title='" + val["description"] + "'><label>" + val["name"] +
                     "<input class='form-control' type='text' required='" + val["required"] + "'>" +
                     "<small class='form-text text-muted'>" + val["description"] + "</small>" +
                     "</label>"
@@ -87,6 +93,8 @@
                     content: skillContent
                 });
             });
+
+            console.log(result);
             plainSetup();
         }
         </script>

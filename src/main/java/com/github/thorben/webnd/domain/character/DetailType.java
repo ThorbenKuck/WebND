@@ -12,7 +12,7 @@ public class DetailType extends AbstractEntity<Integer> {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@OneToOne
+	@ManyToOne
 	private GameType gameType;
 	@Column(name = "detail_type_name", unique = true)
 	private String name;

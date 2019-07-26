@@ -12,7 +12,7 @@ public class SkillType extends AbstractEntity<Integer> implements Type {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@OneToOne
+	@ManyToOne
 	private GameType gameType;
 	@Column(name = "skill_type_name", unique = true)
 	private String name;

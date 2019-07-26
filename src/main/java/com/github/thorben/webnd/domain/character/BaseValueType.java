@@ -12,8 +12,7 @@ public class BaseValueType extends AbstractEntity<Integer> implements Type {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@MapsId
-	@OneToOne
+	@ManyToOne
 	private GameType gameType;
 	@Column(name = "base_value_type_name", nullable = false)
 	private String name;

@@ -1,13 +1,18 @@
 package com.github.thorben.webnd.application.controller.api;
 
+import com.github.thorben.webnd.application.SessionStorage;
 import com.github.thorben.webnd.application.controller.api.dto.SkillTypeList;
+import com.github.thorben.webnd.application.dto.CreationDto;
 import com.github.thorben.webnd.domain.character.*;
 import com.github.thorben.webnd.domain.games.GameType;
 import com.github.thorben.webnd.domain.games.GameTypeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -28,6 +33,8 @@ public class GameSpecificApi {
 	private GameTypeRepository gameTypeRepository;
 	@Inject
 	private BaseValueTypeRepository baseValueRepository;
+	@Inject
+	private SessionStorage sessionStorage;
 
 	@GetMapping(value = "/api/game_types", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<GameType>> getAllGameTypes() {
@@ -39,16 +46,37 @@ public class GameSpecificApi {
 	@GetMapping(value = "/api/game_types/{gameId}/skills", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<SkillType>> getAllSkills(@PathVariable Integer gameId) {
 		Optional<GameType> byId = gameTypeRepository.findById(gameId);
-		if(!byId.isPresent()) {
+		if (!byId.isPresent()) {
 			return ResponseEntity.ok(Collections.emptyList());
 		}
 		return ResponseEntity.ok(skillTypeRepository.findAllByGameType(byId.get()));
 	}
 
+	@PostMapping("/api/characterCreation/{gameId}")
+	public ResponseEntity prepareCharacterCreation(@PathVariable Integer id, String characterName) {
+		Optional<GameType> byId = gameTypeRepository.findById(id);
+		if(!byId.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		sessionStorage.prepareCharacterCreation(characterName, byId.get());
+		return ResponseEntity.accepted().build();
+	}
+
+	@GetMapping(value = "/api/game_types/{gameId}/skillCreation", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<CreationDto>> getAllSkillCreations() {
+		return ResponseEntity.ok(sessionStorage.getSkillCreationDtoList());
+	}
+
+	@GetMapping(value = "/api/game_types/{gameId}/baseValueCreation", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<CreationDto>> getAllBaseValueCreations() {
+		return ResponseEntity.ok(sessionStorage.getBaseValueCreationDtoList());
+	}
+
 	@GetMapping(value = "/api/game_types/{gameId}/abilities", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<AttributeType>> getAllAttributes(@PathVariable Integer gameId) {
 		Optional<GameType> byId = gameTypeRepository.findById(gameId);
-		if(!byId.isPresent()) {
+		if (!byId.isPresent()) {
 			return ResponseEntity.ok(Collections.emptyList());
 		}
 		return ResponseEntity.ok(attributeTypeRepository.findAllByGameType(byId.get()));
@@ -57,7 +85,7 @@ public class GameSpecificApi {
 	@GetMapping(value = "/api/game_types/{gameId}/baseValues", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<BaseValueType>> getAllBaseValues(@PathVariable Integer gameId) {
 		Optional<GameType> byId = gameTypeRepository.findById(gameId);
-		if(!byId.isPresent()) {
+		if (!byId.isPresent()) {
 			return ResponseEntity.ok(Collections.emptyList());
 		}
 		return ResponseEntity.ok(baseValueRepository.findAllByGameType(byId.get()));
@@ -66,7 +94,7 @@ public class GameSpecificApi {
 	@GetMapping(value = "/api/game_types/{gameId}/details", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<DetailType>> getAllDetails(@PathVariable Integer gameId) {
 		Optional<GameType> byId = gameTypeRepository.findById(gameId);
-		if(!byId.isPresent()) {
+		if (!byId.isPresent()) {
 			return ResponseEntity.ok(Collections.emptyList());
 		}
 		return ResponseEntity.ok(detailTypeRepository.findAllByGameType(byId.get()));
@@ -97,7 +125,7 @@ public class GameSpecificApi {
 	}
 
 	@PostMapping(value = "/api/game_types/{gameId}/abilities", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity newAbilityType(String name, String description, boolean abilityRequired, @PathVariable Integer gameId) {
+	public ResponseEntity newAttributeType(String name, String description, boolean abilityRequired, @PathVariable Integer gameId) {
 		Optional<GameType> gameType = gameTypeRepository.findById(gameId);
 		if (!gameType.isPresent()) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);

@@ -4,6 +4,8 @@ import com.github.thorben.webnd.domain.games.GameType;
 
 public interface Type {
 
+	Integer getId();
+
 	String getName();
 
 	String getDescription();

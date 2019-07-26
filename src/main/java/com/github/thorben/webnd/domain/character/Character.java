@@ -37,7 +37,7 @@ public class Character extends AbstractEntity<Integer> {
 	@Column(name = "character_name", nullable = false)
 	private String name;
 
-	protected Character() {
+	public Character() {
 	}
 
 	@Override
@@ -59,5 +59,41 @@ public class Character extends AbstractEntity<Integer> {
 
 	public List<Skill> getSkills() {
 		return skills;
+	}
+
+	public void setGameType(GameType gameType) {
+		this.gameType = gameType;
+	}
+
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+
+	public List<Detail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<Detail> details) {
+		this.details = details;
+	}
+
+	public List<BaseValue> getBaseValues() {
+		return baseValues;
+	}
+
+	public void setBaseValues(List<BaseValue> baseValues) {
+		this.baseValues = baseValues;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
