@@ -1,6 +1,6 @@
 package com.github.thorben.webnd.application.controller;
 
-import com.github.thorben.webnd.application.LoginModel;
+import com.github.thorben.webnd.application.RegistrationModel;
 import com.github.thorben.webnd.application.SessionStorage;
 import com.github.thorben.webnd.application.tech.Message;
 import com.github.thorben.webnd.application.tech.MessageBroker;
@@ -33,19 +33,19 @@ public class RegisterController {
 	}
 
 	@PostMapping
-	public String newRegistration(Model model, LoginModel loginModel) {
-		if(!loginModel.canBePerformed(messageBroker)) {
+	public String newRegistration(Model model, RegistrationModel registrationModel) {
+		if(!registrationModel.canBePerformed(messageBroker)) {
 			messageBroker.applyMessages(model);
-			loginModel.fillValidEntries(model);
+			registrationModel.fillValidEntries(model);
 			return "/register";
 		}
-		if(userService.emailExists(loginModel.getEmail())) {
+		if(userService.emailExists(registrationModel.getEmail())) {
 			messageBroker.addMessage(Message.once("email_error", "Die Email ist bereits vergeben"));
 			messageBroker.applyMessages(model);
-			loginModel.fillValidEntries(model);
+			registrationModel.fillValidEntries(model);
 			return "/register";
 		}
-		User newUser = userService.createNewUser(loginModel.getEmail(), loginModel.getPassword(), loginModel.getUsername());
+		User newUser = userService.createNewUser(registrationModel.getEmail(), registrationModel.getPassword(), registrationModel.getUsername());
 		sessionStorage.identify(newUser);
 		messageBroker.addMessage(Message.once("message", "Du hast dich erfolgreich registriert"));
 		messageBroker.addMessage(Message.once("login_message", "Herzlich willkommen " + sessionStorage.getUser().map(User::getUsername).orElse(new Username("Unbekannt"))));

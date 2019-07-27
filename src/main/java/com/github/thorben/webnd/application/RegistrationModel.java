@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginModel {
+public class RegistrationModel {
 
 	private String username;
 	private String email;
@@ -17,7 +17,7 @@ public class LoginModel {
 	@JsonIgnore
 	private List<LoginModelEntry> validEntries = new ArrayList<>();
 
-	public LoginModel(String username, String email, String password, String passwordConfirmation) {
+	public RegistrationModel(String username, String email, String password, String passwordConfirmation) {
 		this.username = username;
 		this.email = email;
 		this.password = password;

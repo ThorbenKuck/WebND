@@ -40,6 +40,7 @@ public class SessionStorage {
 		return Optional.ofNullable(user);
 	}
 
+	@Deprecated
 	public List<CreationDto> generateAttributeCreationDto() {
 		if (currentCharacter == null) {
 			return Collections.emptyList();
@@ -51,6 +52,7 @@ public class SessionStorage {
 				.collect(Collectors.toList());
 	}
 
+	@Deprecated
 	public void prepareCharacterCreation(String name, GameType gameType) {
 		currentCharacter = new Character();
 		evaluator = new MathematicalCharacterCreationEvaluator();
@@ -58,6 +60,7 @@ public class SessionStorage {
 		currentCharacter.setGameType(gameType);
 	}
 
+	@Deprecated
 	public void characterCreationSetAttributes(List<Attribute> attributes) {
 		if (currentCharacter == null) {
 			throw new IllegalStateException("Du befindest dich grade nicht in der Charakter erstellung!");
@@ -67,6 +70,7 @@ public class SessionStorage {
 		currentCharacter.setAttributes(attributes);
 	}
 
+	@Deprecated
 	public void characterCreationSetBaseValues(List<BaseValue> baseValues) {
 		if (currentCharacter == null) {
 			throw new IllegalStateException("Du befindest dich grade nicht in der Charakter erstellung!");
@@ -76,6 +80,7 @@ public class SessionStorage {
 		currentCharacter.setBaseValues(baseValues);
 	}
 
+	@Deprecated
 	public void characterCreationSetDetails(List<Detail> details) {
 		if (currentCharacter == null) {
 			throw new IllegalStateException("Du befindest dich grade nicht in der Charakter erstellung!");
@@ -84,6 +89,7 @@ public class SessionStorage {
 		currentCharacter.setDetails(details);
 	}
 
+	@Deprecated
 	public void characterCreationSetSkills(List<Skill> skills) {
 		if (currentCharacter == null) {
 			throw new IllegalStateException("Du befindest dich grade nicht in der Charakter erstellung!");
@@ -93,6 +99,7 @@ public class SessionStorage {
 		currentCharacter.setSkills(skills);
 	}
 
+	@Deprecated
 	public List<SkillType> loadSkillTypes() {
 		List<SkillType> types = new ArrayList<>();
 		skillTypeRepository.findAll().forEach(types::add);
@@ -100,14 +107,17 @@ public class SessionStorage {
 		return types;
 	}
 
+	@Deprecated
 	public List<CreationDto> getSkillCreationDtoList() {
 		return evaluator.createSkillCreations(loadSkillTypes());
 	}
 
+	@Deprecated
 	public List<CreationDto> getBaseValueCreationDtoList() {
 		return evaluator.generateBaseValueCreations(loadBaseValueTypes());
 	}
 
+	@Deprecated
 	public List<AttributeType> loadAttributeTypes() {
 		List<AttributeType> types = new ArrayList<>();
 		attributeTypeRepository.findAll().forEach(types::add);
@@ -115,6 +125,7 @@ public class SessionStorage {
 		return types;
 	}
 
+	@Deprecated
 	public List<DetailType> loadDetailTypes() {
 		List<DetailType> types = new ArrayList<>();
 		detailTypeRepository.findAll().forEach(types::add);
@@ -122,6 +133,7 @@ public class SessionStorage {
 		return types;
 	}
 
+	@Deprecated
 	public List<BaseValueType> loadBaseValueTypes() {
 		List<BaseValueType> types = new ArrayList<>();
 		baseValueTypeRepository.findAll().forEach(types::add);
@@ -129,6 +141,7 @@ public class SessionStorage {
 		return types;
 	}
 
+	@Deprecated
 	public List<GameType> loadGameTypes() {
 		List<GameType> types = new ArrayList<>();
 		gameTypeRepository.findAll().forEach(types::add);
