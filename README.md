@@ -5,7 +5,7 @@ The REST-Resource is always reachable through /api/.
 <details>
 <summary>
     
-## Authentification
+<h2>Authentification</h2>
 
 </summary
 
