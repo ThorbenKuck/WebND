@@ -2,7 +2,12 @@
 
 The REST-Resource is always reachable through /api/.
 
+<details>
+<summary>
+    
 ## Authentification
+
+</summary
 
 The Authentification is utilized statefull. Meaning, the Server keeps the refference for the authentification of the user. 
 
@@ -68,3 +73,5 @@ DELETE
 Returns 202 (ACCEPTED) if okay
 208 (ALREADY_REPORTED) if the user already is logged out
 ```
+
+</details>
