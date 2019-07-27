@@ -5,13 +5,13 @@ The REST-Resource is always reachable through /api/.
 <details>
 <summary>
     
-<h2>Authentification</h2>
+<h3>Authentification</h3>
 
 </summary
 
 The Authentification is utilized statefull. Meaning, the Server keeps the refference for the authentification of the user. 
 
-### Is Authenticated
+#### Is Authenticated
 
 Whether or not you are authenticated can be read by the following path:
 
@@ -23,7 +23,7 @@ Returns 200 (OK) if authenticated
 401 (UNAUTHORIZED) else.
 ```
 
-### Registration
+#### Registration
 
 ```
 POST
@@ -49,7 +49,7 @@ Example Response (Okay):
 
 After a successfull registration, the user is automatically authenticated. No separate post to login is required.
 
-### Login
+#### Login
 
 ```
 POST
@@ -64,7 +64,7 @@ Returns 202 (ACCEPTED) if okay
 406 (NOT_ACCEPTABLE) if either the id is not found or the password is incorrect (to prevent bruteforce).
 ```
 
-### Logout
+#### Logout
 
 ```
 DELETE
