@@ -4,7 +4,7 @@ The REST-Resource is always reachable through /api/.
 
 <details>
 <summary style="background-color: black; color:white;">
-    <h3>Authentification</h3>
+    <b>Authentification</b>
 </summary
 
 The Authentification is utilized statefull. Meaning, the Server keeps the refference for the authentification of the user. 
