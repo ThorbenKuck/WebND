@@ -8,12 +8,15 @@ import com.github.thorben.webnd.domain.games.GameTypeRepository;
 import com.github.thorben.webnd.domain.user.User;
 import com.github.thorben.webnd.domain.user.UserRole;
 import com.github.thorben.webnd.foundation.MathematicalCharacterCreationEvaluator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class SessionStorage {
@@ -38,6 +41,34 @@ public class SessionStorage {
 
 	public Optional<User> getUser() {
 		return Optional.ofNullable(user);
+	}
+
+	public ResponseEntity verifyAuthentication(Supplier<ResponseEntity> other) {
+		if (!isLoggedIn()) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
+		try {
+			return other.get();
+		} catch (Throwable throwable) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(throwable);
+		}
+	}
+
+	public boolean isLoggedIn() {
+		return user != null;
+	}
+
+	public boolean isModerator() {
+		return user != null && user.getUserRole() == UserRole.MODERATOR;
+	}
+
+	public String prettyPrint() {
+		return user == null ? "Nicht angemeldet" : (user.getUsername() + user.getUserRole().pretty());
+	}
+
+	public void invalidate() {
+		user = null;
 	}
 
 	@Deprecated
@@ -147,21 +178,5 @@ public class SessionStorage {
 		gameTypeRepository.findAll().forEach(types::add);
 
 		return types;
-	}
-
-	public boolean isLoggedIn() {
-		return user != null;
-	}
-
-	public boolean isModerator() {
-		return user != null && user.getUserRole() == UserRole.MODERATOR;
-	}
-
-	public String prettyPrint() {
-		return user == null ? "Nicht angemeldet" : (user.getUsername() + user.getUserRole().pretty());
-	}
-
-	public void invalidate() {
-		user = null;
 	}
 }
