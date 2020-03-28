@@ -1,0 +1,56 @@
+.campaign-container {
+    display:grid;
+    grid-template: "content sidebar";
+    grid-template-columns: 6fr 1fr;
+    height: 93.5%;
+}
+
+.campaign-content {
+    grid-area: content;
+}
+
+.campaign-sidebar {
+    grid-area: sidebar;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.sidebar-container {
+    border-left: 1px solid lightgray;
+    padding: 10px;
+    max-height: 93.5vh;
+}
+
+.sidebar-header {
+    text-align: center;
+    font-size: large;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.sidebar-body {
+    overflow-y: scroll;
+    margin-top: 10px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+}
+
+.sidebar-body > *:nth-child(odd) > div {
+    background: #CCC
+}
+
+.sidebar-body > *:nth-child(even) > div {
+    background: #FFF
+}
+
+.sidebar-body > div {
+    padding:5px
+}
+
+.sidebar-footer {
+    bottom: 0;
+}

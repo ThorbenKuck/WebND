@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de" style="height: 100%" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/layout :: head(title=' - Registrieren')"/>
+
+<body>
+<nav th:replace="/fragments/layout :: navigation('campaign')"/>
+
+<div role="grid" class="container" style="margin-top: 10px;">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-block btn-link collapsed" data-toggle="collapse" data-target="#campaign_creation_collapse" aria-expanded="false" aria-controls="campaign_creation_collapse">
+                        Eine neue Kampagne erstellen
+                    </button>
+                </h5>
+            </div>
+
+            <div id="campaign_creation_collapse" class="collapse" aria-labelledby="campaign_creation_heading_collapse" aria-expanded="false" data-parent="#accordion">
+                <div class="card-body">
+                    <form th:insert="/fragments/forms :: campaign_creation" onsubmit="">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-block btn-link collapsed" data-toggle="collapse" data-target="#campaigns" aria-expanded="true" aria-controls="campaigns">
+                        Alle deine Kampagnen
+                    </button>
+                </h5>
+            </div>
+            <div id="campaigns" class="collapse show" aria-labelledby="campaigns" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        This is a primary alert—check it out!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

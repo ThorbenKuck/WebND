@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+<head th:replace="/fragments/layout :: head(title=' - Registrieren')"></head>
+
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+
+<script type="module" src="/js/application.js">
+
+</script>
+
+<body>
+<nav th:replace="/fragments/layout :: navigation('register')"></nav>
+
+<div class="campaign-container">
+    <div class="campaign-content">
+        Das ist main Content :)
+    </div>
+    <div class="campaign-sidebar sidebar-container">
+        <div class="sidebar-header">Nachrichten</div>
+        <div class="sidebar-body" id="greetings">
+        </div>
+        <div class="sidebar-footer">
+            <dice-form></dice-form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="modals" th:each="type : ${gameTypes}">
     <div th:id="'gt_ability_modal_' + ${type.getId()}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
